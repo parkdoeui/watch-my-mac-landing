@@ -253,7 +253,7 @@
       position: relative;
       display: inline-flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: center;
     }
 
     .download-toggle {
@@ -320,14 +320,6 @@
       font-size: 12px;
     }
 
-    .download-note {
-      display: none;
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
     .download-toggle.is-disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -337,10 +329,6 @@
 
     .is-mobile-phone .download-menu {
       display: none !important;
-    }
-
-    .is-mobile-phone .download-note {
-      display: block;
     }
 
     .btn-ghost {
@@ -1350,7 +1338,6 @@
               <span>Intel-based Macs</span>
             </a>
           </div>
-          <p class="download-note">Download is available on Mac. Open this page on your Mac to install.</p>
         </div>
       </div>
       <div class="hero-meta" role="list" aria-label="App details">
@@ -1613,7 +1600,6 @@
             <span>Intel-based Macs</span>
           </a>
         </div>
-        <p class="download-note">Download is available on Mac. Open this page on your Mac to install.</p>
       </div>
     </div>
     <nav class="footer-links" aria-label="Footer links">
