@@ -320,6 +320,29 @@
       font-size: 12px;
     }
 
+    .download-note {
+      display: none;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .download-toggle.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.22);
+    }
+
+    .is-mobile-phone .download-menu {
+      display: none !important;
+    }
+
+    .is-mobile-phone .download-note {
+      display: block;
+    }
+
     .btn-ghost {
       display: inline-flex;
       align-items: center;
@@ -1327,6 +1350,7 @@
               <span>Intel-based Macs</span>
             </a>
           </div>
+          <p class="download-note">Download is available on Mac. Open this page on your Mac to install.</p>
         </div>
       </div>
       <div class="hero-meta" role="list" aria-label="App details">
@@ -1589,6 +1613,7 @@
             <span>Intel-based Macs</span>
           </a>
         </div>
+        <p class="download-note">Download is available on Mac. Open this page on your Mac to install.</p>
       </div>
     </div>
     <nav class="footer-links" aria-label="Footer links">
@@ -1649,9 +1674,32 @@
   </script>
 
   <script>
+    (function () {
+      var ua = navigator.userAgent || '';
+      var uaDataMobile = !!(navigator.userAgentData && navigator.userAgentData.mobile);
+      var isIPhoneOrIPod = /iPhone|iPod/i.test(ua);
+      var isAndroidPhone = /Android/i.test(ua) && /Mobile/i.test(ua);
+      var isOtherPhone = /Windows Phone|IEMobile|Opera Mini|BlackBerry/i.test(ua);
+      var isMobilePhone = uaDataMobile || isIPhoneOrIPod || isAndroidPhone || isOtherPhone;
+
+      if (!isMobilePhone) return;
+
+      document.body.classList.add('is-mobile-phone');
+      document.querySelectorAll('.download-toggle').forEach(function (btn) {
+        btn.classList.add('is-disabled');
+        btn.setAttribute('aria-disabled', 'true');
+      });
+      document.querySelectorAll('.download-item').forEach(function (link) {
+        link.setAttribute('tabindex', '-1');
+      });
+    })();
+  </script>
+
+  <script>
     document.querySelectorAll('.download-toggle').forEach(btn => {
       btn.addEventListener('click', (event) => {
         event.preventDefault();
+        if (document.body.classList.contains('is-mobile-phone')) return;
         const dropdown = btn.closest('.download-dropdown');
         const isOpen = dropdown.classList.contains('open');
 
