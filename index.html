@@ -319,9 +319,11 @@
       font-size: 12px;
     }
 
-    .download-toggle.is-disabled {
+    .download-toggle.is-disabled,
+    .download-btn.is-disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      pointer-events: none;
       transform: none;
       box-shadow: 0 0 10px rgba(139, 92, 246, 0.22);
     }
@@ -1341,7 +1343,7 @@
         <!-- Direct download — universal build covers Intel + Apple Silicon -->
         <a id="download"
           href="https://firebasestorage.googleapis.com/v0/b/watch-my-mac.firebasestorage.app/o/public%2FWatchMyMac-1.0.0-universal.dmg?alt=media&token=4f75a4b3-13aa-4815-9526-3ff71aaa4022"
-          class="btn-primary" download aria-label="Download WatchMyMac for macOS">
+          class="btn-primary download-btn" download aria-label="Download WatchMyMac for macOS">
           ↓ Free Download for macOS
         </a>
         <!-- DISABLED: version-picker dropdown (kept for reference)
@@ -1612,7 +1614,7 @@
     <div class="footer-cta-group">
       <!-- Direct download — universal build covers Intel + Apple Silicon -->
       <a href="https://firebasestorage.googleapis.com/v0/b/watch-my-mac.firebasestorage.app/o/public%2FWatchMyMac-1.0.2-universal.dmg?alt=media&token=50f079c9-0ee6-4aec-b83c-ff5871ee68d0"
-        class="btn-primary" style="font-size:15px;padding:14px 28px;" download
+        class="btn-primary download-btn" style="font-size:15px;padding:14px 28px;" download
         aria-label="Download WatchMyMac for macOS">
         ↓ Free Download for macOS
       </a>
@@ -1704,6 +1706,16 @@
       if (!isMobilePhone) return;
 
       document.body.classList.add('is-mobile-phone');
+      
+      // Disable the new direct download buttons
+      document.querySelectorAll('.download-btn').forEach(function (btn) {
+        btn.classList.add('is-disabled');
+        btn.setAttribute('aria-disabled', 'true');
+        btn.removeAttribute('href');
+        btn.textContent = 'macOS Download Only';
+      });
+
+      // Disable the old legacy toggles (kept for reference)
       document.querySelectorAll('.download-toggle').forEach(function (btn) {
         btn.classList.add('is-disabled');
         btn.setAttribute('aria-disabled', 'true');
