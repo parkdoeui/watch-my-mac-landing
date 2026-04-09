@@ -1706,7 +1706,7 @@
       if (!isMobilePhone) return;
 
       document.body.classList.add('is-mobile-phone');
-      
+
       // Disable the new direct download buttons
       document.querySelectorAll('.download-btn').forEach(function (btn) {
         btn.classList.add('is-disabled');
@@ -1786,6 +1786,10 @@
           btn.setAttribute('aria-expanded', 'true');
         }
       });
+    });
+    DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/watch-my-mac.firebasestorage.app/o/public%2FWatchMyMac-1.0.2-universal.dmg?alt=media&token=50f079c9-0ee6-4aec-b83c-ff5871ee68d0";
+    document.querySelectorAll('.download-btn').forEach(function (btn) {
+      btn.setAttribute('href', DOWNLOAD_URL);
     });
   </script>
 
