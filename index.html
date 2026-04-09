@@ -248,6 +248,77 @@
       box-shadow: 0 0 24px rgba(139, 92, 246, 0.6), 0 0 8px rgba(139, 92, 246, 0.4);
     }
 
+    .download-dropdown {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .download-toggle {
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .download-toggle::after {
+      content: '▾';
+      margin-left: 8px;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .download-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      right: 0;
+      min-width: 280px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 150;
+    }
+
+    .download-dropdown.open .download-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .download-item {
+      display: block;
+      color: var(--text);
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .download-item:hover {
+      background: var(--bg-card-2);
+      border-color: var(--border);
+    }
+
+    .download-item strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .download-item span {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
     .btn-ghost {
       display: inline-flex;
       align-items: center;
@@ -1221,7 +1292,7 @@
     <!-- ── App showcase ─────────────────────────────────────── -->
     <div class="showcase" aria-label="App preview">
       <div class="showcase-window">
-        <video class="showcase-video" autoplay loop muted playsinline preload="auto">
+        <video class="showcase-video" autoplay loop muted playsinline preload="metadata" poster="assets/step-1.png">
           <source src="assets/landing-final.mp4" type="video/mp4">
         </video>
       </div>
@@ -1239,9 +1310,23 @@
         to your phone so you can see what's happening to your Macwhether you're at a cafe, library, or co-working space.
       </p>
       <div class="hero-actions">
-        <a href="#download" class="btn-primary" id="download" aria-label="Download WatchMyMac for macOS, free">
-          ↓ Free Download for macOS
-        </a>
+        <div class="download-dropdown" id="download">
+          <button type="button" class="btn-primary download-toggle" aria-expanded="false"
+            aria-label="Download WatchMyMac for macOS">
+            ↓ Free Download for macOS
+          </button>
+          <div class="download-menu" role="menu" aria-label="Choose Mac version">
+            <a class="download-item" role="menuitem"
+              href="https://download.watchmymac.app/WatchMyMac-apple-silicon.dmg">
+              <strong>Apple Silicon</strong>
+              <span>M1, M2, M3, M4 Macs</span>
+            </a>
+            <a class="download-item" role="menuitem" href="https://download.watchmymac.app/WatchMyMac-intel.dmg">
+              <strong>Intel</strong>
+              <span>Intel-based Macs</span>
+            </a>
+          </div>
+        </div>
       </div>
       <div class="hero-meta" role="list" aria-label="App details">
         <span role="listitem">macOS 14+</span>
@@ -1488,8 +1573,22 @@
       Ready to <span class="accent">step away?</span>
     </div>
     <div class="footer-cta-group">
-      <a href="#download" class="btn-primary" style="font-size:15px;padding:14px 28px;"
-        aria-label="Download WatchMyMac for macOS, free">↓ Free Download for macOS</a>
+      <div class="download-dropdown">
+        <button type="button" class="btn-primary download-toggle" style="font-size:15px;padding:14px 28px;"
+          aria-expanded="false" aria-label="Download WatchMyMac for macOS">
+          ↓ Free Download for macOS
+        </button>
+        <div class="download-menu" role="menu" aria-label="Choose Mac version">
+          <a class="download-item" role="menuitem" href="https://download.watchmymac.app/WatchMyMac-apple-silicon.dmg">
+            <strong>Apple Silicon</strong>
+            <span>M1, M2, M3, M4 Macs</span>
+          </a>
+          <a class="download-item" role="menuitem" href="https://download.watchmymac.app/WatchMyMac-intel.dmg">
+            <strong>Intel</strong>
+            <span>Intel-based Macs</span>
+          </a>
+        </div>
+      </div>
     </div>
     <nav class="footer-links" aria-label="Footer links">
       <a href="https://github.com">GitHub</a>
@@ -1546,6 +1645,45 @@
       window.addEventListener('scroll', tick, { passive: true });
       tick();
     })();
+  </script>
+
+  <script>
+    document.querySelectorAll('.download-toggle').forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const dropdown = btn.closest('.download-dropdown');
+        const isOpen = dropdown.classList.contains('open');
+
+        document.querySelectorAll('.download-dropdown.open').forEach(el => {
+          el.classList.remove('open');
+          const toggle = el.querySelector('.download-toggle');
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          dropdown.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('.download-dropdown')) return;
+      document.querySelectorAll('.download-dropdown.open').forEach(el => {
+        el.classList.remove('open');
+        const toggle = el.querySelector('.download-toggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      document.querySelectorAll('.download-dropdown.open').forEach(el => {
+        el.classList.remove('open');
+        const toggle = el.querySelector('.download-toggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
   </script>
 
   <script>
