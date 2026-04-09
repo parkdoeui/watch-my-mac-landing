@@ -1336,7 +1336,16 @@
         to your phone so you can see what's happening to your Macwhether you're at a cafe, library, or co-working space.
       </p>
       <div class="hero-actions">
-        <div class="download-dropdown" id="download">
+        <!-- Direct download — universal build covers Intel + Apple Silicon -->
+        <a id="download"
+          href="https://firebasestorage.googleapis.com/v0/b/watch-my-mac.firebasestorage.app/o/public%2FWatchMyMac-v1.0.0-universal.dmg?alt=media&token=689feb20-b182-48e8-be40-ffc7ca56d778"
+          class="btn-primary"
+          download
+          aria-label="Download WatchMyMac for macOS">
+          ↓ Free Download for macOS
+        </a>
+        <!-- DISABLED: version-picker dropdown (kept for reference)
+        <div class="download-dropdown">
           <button type="button" class="btn-primary download-toggle" aria-expanded="false"
             aria-label="Download WatchMyMac for macOS">
             ↓ Free Download for macOS
@@ -1353,6 +1362,7 @@
             </a>
           </div>
         </div>
+        END DISABLED -->
       </div>
       <div class="hero-meta" role="list" aria-label="App details">
         <span role="listitem">macOS 14+</span>
@@ -1599,6 +1609,14 @@
       Ready to <span class="accent">step away?</span>
     </div>
     <div class="footer-cta-group">
+      <!-- Direct download — universal build covers Intel + Apple Silicon -->
+      <a href="https://firebasestorage.googleapis.com/v0/b/watch-my-mac.firebasestorage.app/o/public%2FWatchMyMac-v1.0.0-universal.dmg?alt=media&token=689feb20-b182-48e8-be40-ffc7ca56d778"
+        class="btn-primary" style="font-size:15px;padding:14px 28px;"
+        download
+        aria-label="Download WatchMyMac for macOS">
+        ↓ Free Download for macOS
+      </a>
+      <!-- DISABLED: version-picker dropdown (kept for reference)
       <div class="download-dropdown">
         <button type="button" class="btn-primary download-toggle" style="font-size:15px;padding:14px 28px;"
           aria-expanded="false" aria-label="Download WatchMyMac for macOS">
@@ -1615,6 +1633,7 @@
           </a>
         </div>
       </div>
+      END DISABLED -->
     </div>
     <nav class="footer-links" aria-label="Footer links">
       <a href="https://github.com">GitHub</a>
@@ -1695,6 +1714,7 @@
     })();
   </script>
 
+  <!-- DISABLED: dropdown toggle JS — no longer needed with direct download link
   <script>
     document.querySelectorAll('.download-toggle').forEach(btn => {
       btn.addEventListener('click', (event) => {
@@ -1734,6 +1754,7 @@
       });
     });
   </script>
+  END DISABLED -->
 
   <script>
     document.querySelectorAll('.faq-q').forEach(btn => {
